@@ -1,6 +1,7 @@
 package ca.yorku.eecs;
 import static org.neo4j.driver.v1.Values.parameters;
 
+import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 import org.neo4j.driver.v1.AuthTokens;
 import org.neo4j.driver.v1.Config;
@@ -31,7 +32,24 @@ public class Neo4jController {
         driver.close();
     }
 
-    public void addActor(JSONObject json){
+    /*
+    PUT METHODS
+     */
+
+    public void addActor(HttpExchange exchange){
+
     }
+
+    public void addMovie(HttpExchange exchange) {
+    }
+
+    public void addRelationship(HttpExchange exchange) {
+    }
+
+    /*
+    GET METHODS
+     */
+
+
 
 }
