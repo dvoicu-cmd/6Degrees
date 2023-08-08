@@ -1,6 +1,7 @@
-package ca.yorku.eecs;
+package ca.yorku.eecs.Strategy;
 import static org.neo4j.driver.v1.Values.parameters;
 
+import ca.yorku.eecs.Strategy.PUT.addActor;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 import org.neo4j.driver.v1.AuthTokens;
@@ -12,9 +13,13 @@ import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.Transaction;
 import org.json.*;
 
+import java.net.URI;
+import java.util.ArrayList;
+
 public class Neo4jController {
     private Driver driver;
     private String uriDb;
+    private ArrayList<RESTStrategy> methods;
 
     /**
      * Construct a new instance to the neo4j database.
@@ -25,6 +30,19 @@ public class Neo4jController {
         driver = GraphDatabase.driver(uriDb, AuthTokens.basic("neo4j","12345678"),config);
     }
 
+
+    public void loadGETMethods(){
+
+    }
+
+    public void loadPUTMethods(){
+
+    }
+
+    public void clearMethods(){
+        methods.clear();
+    }
+
     /**
      * Closes the instance to the database.
      */
@@ -32,24 +50,19 @@ public class Neo4jController {
         driver.close();
     }
 
-    /*
-    PUT METHODS
+    /**
+     * Helper method that extracts the string containing the desired endpoint request.
+     * @param exchange
+     * @return
      */
-
-    public void addActor(HttpExchange exchange){
-
+    private String processURI(HttpExchange exchange) {
+        //1st extract the request
+        URI uri = exchange.getRequestURI();
+        String uriString = uri.toString();
+        //2nd get the substring of the uri
+        String uriSubString = uriString.substring(8);
+        return uriSubString;
     }
-
-    public void addMovie(HttpExchange exchange) {
-    }
-
-    public void addRelationship(HttpExchange exchange) {
-    }
-
-    /*
-    GET METHODS
-     */
-
 
 
 }

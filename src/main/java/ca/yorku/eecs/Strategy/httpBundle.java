@@ -1,7 +1,7 @@
 package ca.yorku.eecs.Strategy;
 
-import javax.xml.ws.spi.http.HttpExchange;
-import org.json.*;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 
 /**
  * An intermediary class the contains the important data between the call from the server to the db.
@@ -49,7 +49,5 @@ public class httpBundle {
     public int getResetCode(){
         return this.resetCode;
     }
-
-
 
 }

@@ -2,12 +2,12 @@ package ca.yorku.eecs;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.InetSocketAddress;
 import java.net.URI;
 
+import ca.yorku.eecs.Strategy.Neo4jController;
+import ca.yorku.eecs.Strategy.httpBundle;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
 
 /**
  * Establish an intermediary connection between the live server on App.java and the DBMS in Neo4JController.java
@@ -27,14 +27,18 @@ public class Neo4jHttpHandler implements HttpHandler {
     }
 
 
+    /**
+     * Main handler method. the initial exchange goes through here.
+     * @param exchange
+     * @throws IOException
+     */
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         try {
-            if(exchange.getRequestMethod().equals("PUT")){
-                handlePut(exchange);
-            }
-            else if(exchange.getRequestMethod().equals("GET")){
-                handleGet(exchange);
+            //If the request is a PUT or GET request,
+            if(exchange.getRequestMethod().equals("PUT") || exchange.getRequestMethod().equals("GET")){
+                httpBundle output = handleStrategy(exchange); //Execute a method that will be figured out later.
+                sendString(output.getExchange(), output.getData(), output.getResetCode()); //return the response.
             }
             else {
                 sendString(exchange, "Unimplemented Method\n", 501);
@@ -45,46 +49,26 @@ public class Neo4jHttpHandler implements HttpHandler {
         }
     }
 
-    private void handlePut(HttpExchange exchange) {
-        //TODO: addActor, addMovie, addRelationship,
-        String s = processURI(exchange);
-
-        switch(s) {
-            case "addActor":
-                db.addActor(exchange);
-
-                break;
-            case "addMovie":
-                db.addMovie(exchange);
-
-                break;
-            case "addRelationship":
-                db.addRelationship(exchange);
-
-                break;
-        }
-
-        //TODO: find out a way to get a response back from the controller.
-        sendString(exchange)
-
-    }
-
-    private void handleGet(HttpExchange exchange) {
-
-    }
-
     /**
-     * Helper method that extracts the string containing the desired endpoint request.
+     * Method that bridges over to the neo4jdb controller.
      * @param exchange
      * @return
      */
-    private String processURI(HttpExchange exchange) {
-        //1st extract the request
-        URI uri = exchange.getRequestURI();
-        String uriString = uri.toString();
-        //2nd get the substring of the uri
-        String uriSubString = uriString.substring(8);
-        return uriSubString;
+    public httpBundle handleStrategy(HttpExchange exchange){
+        //OPEN DB instance
+        db = new Neo4jController();
+
+        //1) figure out what the request is
+
+        //2) execute request
+
+        //3) build back the response
+
+        //CLOSE DB instance
+        db.close();
+        db = null;
+        //Return the built response
+        return null;
     }
 
     /**
