@@ -58,17 +58,14 @@ public class Neo4jHttpHandler implements HttpHandler {
         //OPEN DB instance
         db = new Neo4jController();
 
-        //1) figure out what the request is
-
-        //2) execute request
-
-        //3) build back the response
+        //PROCESS DB instance (Facade)
+        httpBundle output = db.processRequest(exchange);
 
         //CLOSE DB instance
         db.close();
         db = null;
         //Return the built response
-        return null;
+        return output;
     }
 
     /**
