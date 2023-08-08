@@ -14,7 +14,7 @@ public class App
         // please refer to the HTML server example
 
         //Line 1:
-        Neo4jHttpHandler handler = new Neo4jHttpHandler();
+        HttpInitializer handler = new HttpInitializer();
 
         //Line 2:
         server.createContext("/api/v1/", handler::handle);

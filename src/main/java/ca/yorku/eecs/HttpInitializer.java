@@ -2,28 +2,26 @@ package ca.yorku.eecs;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URI;
 
-import ca.yorku.eecs.Strategy.Neo4jController;
+import ca.yorku.eecs.Strategy.Neo4jFacade;
 import ca.yorku.eecs.Strategy.httpBundle;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
 /**
  * Establish an intermediary connection between the live server on App.java and the DBMS in Neo4JController.java
  */
-public class Neo4jHttpHandler implements HttpHandler {
+public class HttpInitializer implements com.sun.net.httpserver.HttpHandler {
 
     /**
      * pointer to the neo4j database.
      */
-    private Neo4jController db;
+    private Neo4jFacade db;
 
     /**
      * constructor
      */
-    public Neo4jHttpHandler(){
-        db = new Neo4jController();
+    public HttpInitializer(){
+        db = new Neo4jFacade();
     }
 
 
@@ -56,7 +54,7 @@ public class Neo4jHttpHandler implements HttpHandler {
      */
     public httpBundle handleStrategy(HttpExchange exchange){
         //OPEN DB instance
-        db = new Neo4jController();
+        db = new Neo4jFacade();
 
         //PROCESS DB instance (Facade)
         httpBundle output = db.processRequest(exchange);

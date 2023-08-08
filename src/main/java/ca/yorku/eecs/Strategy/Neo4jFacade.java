@@ -21,7 +21,7 @@ import ca.yorku.eecs.Strategy.GET.*;
 import ca.yorku.eecs.Strategy.PUT.*;
 import ca.yorku.eecs.Utils;
 
-public class Neo4jController {
+public class Neo4jFacade {
     private Driver driver;
     private String uriDb;
     private ArrayList<RESTStrategy> methods;
@@ -29,7 +29,7 @@ public class Neo4jController {
     /**
      * Construct a new instance to the neo4j database.
      */
-    public Neo4jController(){
+    public Neo4jFacade(){
         uriDb = "bolt://localhost:7687";
         Config config = Config.builder().withoutEncryption().build(); //no encryption configuration.
         driver = GraphDatabase.driver(uriDb, AuthTokens.basic("neo4j","12345678"),config);
