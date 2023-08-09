@@ -6,8 +6,9 @@ import com.sun.net.httpserver.HttpExchange;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.Session;
 import org.json.*;
-
+import ca.yorku.eecs.Utils;
 import java.io.*;
+import java.util.Map;
 
 import static org.neo4j.driver.v1.Values.parameters;
 
@@ -17,15 +18,9 @@ public class addActor implements RESTStrategy {
     public httpBundle processRequest(HttpExchange exchange, Driver driver) throws IOException, JSONException {
 
 
-        InputStream requestBody = exchange.getRequestBody();
-        BufferedReader streamReader = new BufferedReader(new InputStreamReader(requestBody, "UTF-8"));
-        StringBuilder responseStrBuilder = new StringBuilder();
+        Map<String,String> s = Utils.getMapBody(exchange);
 
-        String inputStr;
-        while ((inputStr = streamReader.readLine()) != null)
-            responseStrBuilder.append(inputStr);
 
-        JSONObject jsonObject = new JSONObject(responseStrBuilder.toString());
 
 
 
@@ -36,6 +31,6 @@ public class addActor implements RESTStrategy {
         }
 
 
-        return new httpBundle(exchange, "OK", 200);
+        return new httpBundle(exchange, s.toString(), 200);
     }
 }

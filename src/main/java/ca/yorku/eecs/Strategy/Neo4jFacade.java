@@ -134,11 +134,12 @@ public class Neo4jFacade {
         URI uri = exchange.getRequestURI();
         String uriString = uri.toString();
         //2nd get the substring of the uri
-
         String uriSubString = uriString.substring(8);
-        int afterQuery = uriSubString.indexOf("?");
-        uriSubString = uriSubString.substring(0,afterQuery);
-
+        //3rd clear the rest of the characters to the right of the string. (if there is params in the uri)
+        if(uriSubString.contains("?")) {
+            int afterQuery = uriSubString.indexOf("?");
+            uriSubString = uriSubString.substring(0, afterQuery);
+        }
         return uriSubString;
     }
 
