@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.11.4 on darwin)" generated="20230810 15:50:51.702" rpa="false" schemaversion="4">
+<suite id="s1" name="testNeo4j" source="/Users/dvoicu/Desktop/Local Editing Projects/project/src/test/testNeo4j.robot">
+<test id="s1-t1" name="addActorPass" line="8">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="NOT RUN" starttime="20230810 15:50:51.744" endtime="20230810 15:50:51.744"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${params}</var>
+<arg>name=bob</arg>
+<arg>actorId=nm7001850</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="NOT RUN" starttime="20230810 15:50:51.745" endtime="20230810 15:50:51.745"/>
+</kw>
+<kw name="PUT On Session">
+<var>${resp}</var>
+<arg>localhost</arg>
+<arg>/api/v1/addActor</arg>
+<arg>json=${params}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=200</arg>
+<msg timestamp="20230810 15:50:51.746" level="FAIL">No keyword with name 'PUT On Session' found.</msg>
+<status status="FAIL" starttime="20230810 15:50:51.746" endtime="20230810 15:50:51.746"/>
+</kw>
+<timeout value="30 seconds"/>
+<status status="FAIL" starttime="20230810 15:50:51.744" endtime="20230810 15:50:51.746">No keyword with name 'PUT On Session' found.</status>
+</test>
+<status status="FAIL" starttime="20230810 15:50:51.702" endtime="20230810 15:50:51.746"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="testNeo4j">testNeo4j</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20230810 15:50:51.700" level="ERROR">Error in file '/Users/dvoicu/Desktop/Local Editing Projects/project/src/test/testNeo4j.robot' on line 5: Non-existing setting 'Suit Setup'. Did you mean:
+    Suite Setup
+    Test Setup</msg>
+<msg timestamp="20230810 15:50:51.739" level="ERROR">Error in file '/Users/dvoicu/Desktop/Local Editing Projects/project/src/test/testNeo4j.robot' on line 3: Importing library 'RequestsLibrary' failed: ImportError: dlopen(/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/charset_normalizer/md.cpython-311-darwin.so, 0x0002): tried: '/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/charset_normalizer/md.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/charset_normalizer/md.cpython-311-darwin.so' (no such file), '/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/charset_normalizer/md.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/RequestsLibrary/__init__.py", line 1, in &lt;module&gt;
+    from .DeprecatedKeywords import DeprecatedKeywords
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/RequestsLibrary/DeprecatedKeywords.py", line 6, in &lt;module&gt;
+    from RequestsLibrary import utils
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/RequestsLibrary/utils.py", line 5, in &lt;module&gt;
+    from requests.status_codes import codes
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/requests/__init__.py", line 45, in &lt;module&gt;
+    from .exceptions import RequestsDependencyWarning
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/requests/exceptions.py", line 9, in &lt;module&gt;
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/requests/compat.py", line 13, in &lt;module&gt;
+    import charset_normalizer as chardet
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/charset_normalizer/__init__.py", line 24, in &lt;module&gt;
+    from .api import from_bytes, from_fp, from_path, is_binary
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/charset_normalizer/api.py", line 5, in &lt;module&gt;
+    from .cd import (
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/charset_normalizer/cd.py", line 9, in &lt;module&gt;
+    from .md import is_suspiciously_successive_range
+PYTHONPATH:
+  /Library/Frameworks/Python.framework/Versions/3.11/bin
+  /Library/Frameworks/Python.framework/Versions/3.11/lib/python311.zip
+  /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11
+  /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/lib-dynload
+  /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages</msg>
+</errors>
+</robot>
