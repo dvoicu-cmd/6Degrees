@@ -62,6 +62,8 @@ public class Utils {
         This implementation sucks. Just sucks.
         I could not for the life of me figure out a way to parse the jumbled data from exchange.getRequestBody into JSON
         So I just said: To hell with it, I'm parsing the data by hand using regex.
+
+        August 10th Dan: Turns out, postman is the reason why I had to develop this. Regular requests in .robot files are easy to parse.
          */
     public static Map<String,String> getMapBody(HttpExchange exchange) throws IOException {
 

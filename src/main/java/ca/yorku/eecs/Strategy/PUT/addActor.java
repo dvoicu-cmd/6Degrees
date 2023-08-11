@@ -18,10 +18,9 @@ public class addActor implements RESTStrategy {
     //TODO implement this
     @Override
     public httpBundle processRequest(HttpExchange exchange, Driver driver) throws IOException, JSONException {
-
-
-        Map<String,String> s = Utils.getMapBody(exchange);
-        JSONObject json = new JSONObject(s);
+        JSONObject json;
+        String requestBody = Utils.getBody(exchange);
+        json = new JSONObject(requestBody);
 
         /*
         I expect the following format:
@@ -31,33 +30,32 @@ public class addActor implements RESTStrategy {
             }
         If I don't have this, throw IOException
         */
-        if( !(json.has("name")) || !(json.has("actorId")) ){
+        if (!(json.has("name")) || !(json.has("actorId"))) {
             throw new IOException("Bad Request");
         }
 
+        //If we get here, we are good to go for DB commands
+        String name = (String) json.get("name");
+        String id = (String) json.get("actorId");
 
-
-        try (Session session = driver.session()){
-            try(Transaction tx = session.beginTransaction()){
-                StatementResult node_exists = tx.run(
-                        "MATCH (a:Actor {actorId:\""+s.get("actorId")+"\"})\n" +
+        try (Session session = driver.session()) {
+            try (Transaction tx1 = session.beginTransaction()) {
+                StatementResult node_exists = tx1.run(
+                        "MATCH (a:Actor {actorId:\"" + id + "\"})\n" +
                                 "WITH COUNT(a) > 0 as node_exists\n" +
                                 "RETURN node_exists"
                 );
 
                 Record r = node_exists.list().get(0);
-                if(r.get("node_exists").asBoolean()){
+                if (r.get("node_exists").asBoolean()) {
                     throw new IOException("Bad Request");
                 }
             }
-
-            session.writeTransaction(tx -> tx.run(
-                    "CREATE (a:Actor {name:\""+s.get("name")+"\",actorId:\""+s.get("actorId")+"\"})"
+            session.writeTransaction(tx2 -> tx2.run(
+                    "CREATE (a:Actor {name:\"" + name + "\",actorId:\"" + id + "\"})"
             ));
             session.close();
         }
-
-
-        return new httpBundle(exchange, s.toString(), 200);
+        return new httpBundle(exchange, "OK", 200);
     }
 }
