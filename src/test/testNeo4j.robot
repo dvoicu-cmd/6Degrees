@@ -6,6 +6,8 @@ Test Setup    Create Session    localhost    http://localhost:8080
 
 *** Test Cases ***
 
+##### PUT REQUESTS #####
+
 ### addActor Tests ###
 
 addActorCorrectFormat
@@ -36,3 +38,25 @@ addMovieDupe
     ${params2}=   Create Dictionary    name=Barbie    movieId=nm48123
     ${resp}=    PUT On Session    localhost    /api/v1/addMovie    json=${params1}    headers=${headers}    expected_status=200
     ${resp}=    PUT On Session    localhost    /api/v1/addMovie    json=${params2}    headers=${headers}    expected_status=400
+
+### addRelationship Tests ###
+
+addRelationshipPass
+    ${headers}=    Create Dictionary    Content-Type=application/json
+    ${params}=   Create Dictionary    actorId=nm7001850    movieId=nm10385    #Bob acted in Wall-E
+    ${resp}=    PUT On Session    localhost    /api/v1/addRelationship    json=${params}    headers=${headers}    expected_status=200
+
+addRelationshipDuplicate
+    ${headers}=    Create Dictionary    Content-Type=application/json
+    ${params}=   Create Dictionary    actorId=nm7001850    movieId=nm10385    #Bob acted in Wall-E
+    ${resp}=    PUT On Session    localhost    /api/v1/addRelationship    json=${params}    headers=${headers}    expected_status=400
+
+addRelationshipDuplicate2
+    ${headers}=    Create Dictionary    Content-Type=application/json
+    ${params1}=   Create Dictionary    actorId=nm7001850    movieId=nm48123    #Bob acted in Wall-E
+    ${resp}=    PUT On Session    localhost    /api/v1/addRelationship    json=${params1}    headers=${headers}    expected_status=200
+    ${params2}=   Create Dictionary    movieId=nm48123    actorId=nm7001850    #Bob acted in Wall-E
+    ${resp}=    PUT On Session    localhost    /api/v1/addRelationship    json=${params2}    headers=${headers}    expected_status=400
+
+
+##### GET REQUESTS #####
