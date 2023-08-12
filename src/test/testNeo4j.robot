@@ -60,3 +60,10 @@ addRelationshipDuplicate2
 
 
 ##### GET REQUESTS #####
+
+getActor
+    ${headers}=    Create Dictionary    Content-Type=application/json
+    ${params1}=    Create Dictionary    name=Bill    actorId=nm1111891
+    ${resp1}=    PUT On Session    localhost    /api/v1/addActor    json=${params1}    headers=${headers}    expected_status=200
+    ${resp2}=    GET On Session    localhost    /api/v1/getActor?actorId=nm1111891    headers=${headers}    expected_status=200
+    Should Be Equal As Strings    ${params1}    ${resp2.json()}
