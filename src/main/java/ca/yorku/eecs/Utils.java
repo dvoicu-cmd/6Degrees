@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLDecoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -55,6 +56,47 @@ public class Utils {
 	    
         return buf.toString();
         }
+
+    /**
+     * Helper method that extracts the string containing the desired endpoint request.
+     * @param exchange
+     * @return
+     */
+    public static String processURI(HttpExchange exchange) throws UnsupportedEncodingException {
+        //1st extract the request
+        URI uri = exchange.getRequestURI();
+        String uriString = uri.toString();
+        //2nd get the substring of the uri
+        String uriSubString = uriString.substring(8);
+        //3rd clear the rest of the characters to the right of the string. (if there is params in the uri)
+        if(uriSubString.contains("?")) {
+            int afterQuery = uriSubString.indexOf("?");
+            uriSubString = uriSubString.substring(0, afterQuery);
+        }
+        return uriSubString;
+    }
+
+    public static String processDataInURI(HttpExchange exchange) throws UnsupportedEncodingException {
+        //1st extract the request
+        URI uri = exchange.getRequestURI();
+        String uriString = uri.toString();
+        //3rd clear the rest of the characters to the right of the string. (if there is params in the uri)
+        if(uriString.contains("?")) {
+            int afterQuery = uriString.indexOf("?");
+            uriString = uriString.substring(afterQuery+1);
+            uriString = "{"+uriString+"}";
+        }
+        else{
+            throw new UnsupportedEncodingException();
+        }
+        return uriString;
+    }
+
+    public static String stripBraces(String s){
+        String output;
+        output = s.substring(1,s.length()-1);
+        return output;
+    }
 
 
 

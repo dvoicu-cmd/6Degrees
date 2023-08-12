@@ -76,7 +76,7 @@ public class Neo4jFacade {
             switch (method) {
                 case "PUT":
                     loadPUTMethods();
-                    String uriPUT = processURI(exchange);
+                    String uriPUT = Utils.processURI(exchange);
                     int PUTid = -1;
                     switch (uriPUT) {
                         case "addActor":
@@ -93,7 +93,7 @@ public class Neo4jFacade {
                     break;
                 case "GET":
                     loadGETMethods();
-                    String uriGET = processURI(exchange);
+                    String uriGET = Utils.processURI(exchange);
                     int GETid = -1;
                     switch (uriGET) {
                         case "computeBaconNumber":
@@ -123,25 +123,5 @@ public class Neo4jFacade {
         return output;
 
     }
-
-    /**
-     * Helper method that extracts the string containing the desired endpoint request.
-     * @param exchange
-     * @return
-     */
-    private String processURI(HttpExchange exchange) throws UnsupportedEncodingException {
-        //1st extract the request
-        URI uri = exchange.getRequestURI();
-        String uriString = uri.toString();
-        //2nd get the substring of the uri
-        String uriSubString = uriString.substring(8);
-        //3rd clear the rest of the characters to the right of the string. (if there is params in the uri)
-        if(uriSubString.contains("?")) {
-            int afterQuery = uriSubString.indexOf("?");
-            uriSubString = uriSubString.substring(0, afterQuery);
-        }
-        return uriSubString;
-    }
-
 
 }
