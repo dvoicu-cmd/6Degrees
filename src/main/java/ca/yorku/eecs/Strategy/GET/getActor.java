@@ -62,8 +62,8 @@ public class getActor implements RESTStrategy {
                 }
 
                 List<Value> nodesOfMovies = new ArrayList<>();
-                for (int i = 0; i < foundRelations.size(); i++) {
-                    nodesOfMovies.add(foundRelations.get(i).get(2));
+                for (List<Value> foundRelation : foundRelations) {
+                    nodesOfMovies.add(foundRelation.get(2));
                 }
 
                 List<String> movieIds = new ArrayList<>();
