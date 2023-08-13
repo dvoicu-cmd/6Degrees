@@ -35,7 +35,7 @@ public class addActor implements RESTStrategy {
         try (Session session = driver.session()) {
             try (Transaction tx1 = session.beginTransaction()) {
                 StatementResult node_exists = tx1.run(
-                        "MATCH (a:Actor {actorId:\"" + id + "\"})\n" +
+                        "MATCH (a:actor {id:\"" + id + "\"})\n" +
                                 "WITH COUNT(a) > 0 as node_exists\n" +
                                 "RETURN node_exists"
                 );
@@ -46,7 +46,7 @@ public class addActor implements RESTStrategy {
                 }
             }
             session.writeTransaction(tx2 -> tx2.run(
-                    "CREATE (a:Actor {name:\"" + name + "\",actorId:\"" + id + "\"})"
+                    "CREATE (a:actor {name:\"" + name + "\",id:\"" + id + "\"})"
             ));
             session.close();
         }

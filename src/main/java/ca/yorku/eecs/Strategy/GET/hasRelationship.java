@@ -41,7 +41,7 @@ public class hasRelationship implements RESTStrategy {
 
                 //Check if the movie exists
                 StatementResult movieExists = tx.run(
-                        "MATCH (n:Movie {movieId: \""+idMovie+"\"})\n" +
+                        "MATCH (n:movie {id: \""+idMovie+"\"})\n" +
                                 "RETURN n"
                 );
                 if(movieExists.list().isEmpty()){
@@ -50,7 +50,7 @@ public class hasRelationship implements RESTStrategy {
 
                 //Check if the actor exists
                 StatementResult actorExists = tx.run(
-                        "MATCH (n:Actor {actorId: \""+idActor+"\"})\n" +
+                        "MATCH (n:actor {id: \""+idActor+"\"})\n" +
                                 "RETURN n"
                 );
                 if(actorExists.list().isEmpty()){
@@ -60,7 +60,7 @@ public class hasRelationship implements RESTStrategy {
                 //If those queries pass, then we are good to go on checking if the relationship exists
                 //Check if the relationship exists
                 StatementResult query = tx.run(
-                        "MATCH (m:Movie {movieId: \"" + idMovie + "\"})-[:ACTED_IN]-(a:Actor {actorId: \"" + idActor + "\"})\n" +
+                        "MATCH (m:movie {id: \"" + idMovie + "\"})-[:ACTED_IN]-(a:actor {id: \"" + idActor + "\"})\n" +
                                 "RETURN a, m"
                 );
                 boolean relationExists;

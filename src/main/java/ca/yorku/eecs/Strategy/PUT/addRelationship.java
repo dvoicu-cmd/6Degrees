@@ -46,7 +46,7 @@ public class addRelationship implements RESTStrategy {
             //First check if this relationship exists
             try (Transaction tx1 = session.beginTransaction()) {
                 StatementResult relation_exists = tx1.run(
-                        "MATCH (a:Actor {actorId: \""+idActor+"\"})-[:ACTED_IN*1]-(m:Movie {movieId: \""+idMovie+"\"})\n" +
+                        "MATCH (a:actor {id: \""+idActor+"\"})-[:ACTED_IN*1]-(m:movie {id: \""+idMovie+"\"})\n" +
                                 "RETURN EXISTS((a)-[:ACTED_IN*1]-(m)) AS bool"
                 );
 
@@ -57,8 +57,8 @@ public class addRelationship implements RESTStrategy {
             }
             //Else, you want to create that relationship
             session.writeTransaction(tx2 -> tx2.run(
-                    "MATCH(a:Actor),(m:Movie)\n"+
-                            "WHERE a.actorId = \""+idActor+"\" AND m.movieId = \""+idMovie+"\"\n"+
+                    "MATCH(a:actor),(m:movie)\n"+
+                            "WHERE a.id = \""+idActor+"\" AND m.id = \""+idMovie+"\"\n"+
                             "CREATE (a)-[r:ACTED_IN]->(m)\n"
             ));
             session.close();

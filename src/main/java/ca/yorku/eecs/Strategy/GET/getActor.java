@@ -36,7 +36,7 @@ public class getActor implements RESTStrategy {
             String id = (String) json.get("actorId");
             try (Transaction tx = session.beginTransaction()) {
                 StatementResult exists = tx.run(
-                  "MATCH (e:Actor {actorId: \""+id+"\"})\n" +
+                  "MATCH (e:actor {id: \""+id+"\"})\n" +
                           "RETURN e"
                 );
 
@@ -51,7 +51,7 @@ public class getActor implements RESTStrategy {
                 Value actorNode = record.get(0).get(0); //Every actor is unique, there should not be more actors in the query.
 
                 StatementResult results = tx.run(
-                        "MATCH (n:Actor {actorId: \""+id+"\"})-[r]->(m)\n" +
+                        "MATCH (n:actor {id: \""+id+"\"})-[r]->(m)\n" +
                                 "RETURN n,r,m"
                 );
 
@@ -75,7 +75,7 @@ public class getActor implements RESTStrategy {
                 JSONObject jsonOutput = new JSONObject();
                 jsonOutput.put("movies",movieIds);
                 jsonOutput.put("name",actorNode.get("name").asString());
-                jsonOutput.put("actorId",actorNode.get("actorId").asString());
+                jsonOutput.put("actorId",actorNode.get("id").asString());
 
                 output = new httpBundle(exchange, jsonOutput.toString(), 200);
 

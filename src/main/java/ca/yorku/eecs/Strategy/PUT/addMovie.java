@@ -36,7 +36,7 @@ public class addMovie implements RESTStrategy {
             //First check if this movie exists
             try (Transaction tx1 = session.beginTransaction()) {
                 StatementResult node_exists = tx1.run(
-                        "MATCH (a:Movie {movieId:\"" + id + "\"})\n" +
+                        "MATCH (a:movie {id:\"" + id + "\"})\n" +
                                 "WITH COUNT(a) > 0 as node_exists\n" +
                                 "RETURN node_exists"
                 );
@@ -48,7 +48,7 @@ public class addMovie implements RESTStrategy {
                 }
             }
             session.writeTransaction(tx2 -> tx2.run(
-                    "CREATE (a:Movie {name:\"" + name + "\",movieId:\"" + id + "\"})"
+                    "CREATE (a:movie {name:\"" + name + "\",id:\"" + id + "\"})"
             ));
             session.close();
         }

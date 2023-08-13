@@ -40,7 +40,7 @@ public class computeBaconNumber implements RESTStrategy {
             String id = (String) json.get("actorId");
             try (Transaction tx = session.beginTransaction()) {
                 StatementResult exists = tx.run(
-                        "MATCH (e:Actor {actorId: \"" + id + "\"})\n" +
+                        "MATCH (e:actor {id: \"" + id + "\"})\n" +
                                 "RETURN e"
                 );
 
@@ -51,7 +51,7 @@ public class computeBaconNumber implements RESTStrategy {
 
                 StatementResult path = tx.run(
                         "MATCH p=shortestPath((startNode)-[*]-(endNode))\n" +
-                                "WHERE startNode.actorId = \""+id+"\" AND endNode.actorId = \"nm0000102\"\n" +
+                                "WHERE startNode.id = \""+id+"\" AND endNode.id = \"nm0000102\"\n" +
                                 "RETURN p"
                 );
 
@@ -70,11 +70,8 @@ public class computeBaconNumber implements RESTStrategy {
                 //Get the ids of the nodes in the path.
                 for (Node node : baconPath.nodes()) {
                     // Access node properties
-                    if(node.containsKey("actorId")){
-                        pathIds.add(node.get("actorId").asString());
-                    }
-                    else if(node.containsKey("movieId")){
-                        pathIds.add(node.get("movieId").asString());
+                    if(node.hasLabel("movie")){
+                        pathIds.add(node.get("id").asString());
                     }
                 }
 

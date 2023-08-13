@@ -32,7 +32,7 @@ public class getMovie implements RESTStrategy {
             String id = (String) json.get("movieId");
             try (Transaction tx = session.beginTransaction()) {
                 StatementResult exists = tx.run(
-                        "MATCH (e:Movie {movieId: \""+id+"\"})\n" +
+                        "MATCH (e:movie {id: \""+id+"\"})\n" +
                                 "RETURN e"
                 );
 
@@ -46,7 +46,7 @@ public class getMovie implements RESTStrategy {
                 Value movieNode = record.get(0).get(0); //Every movie is unique, there should not be more movies in the query.
 
                 StatementResult results = tx.run(
-                        "MATCH (n:Movie {movieId: \""+id+"\"})-[r]-(m)\n" +
+                        "MATCH (n:movie {id: \""+id+"\"})-[r]-(m)\n" +
                                 "RETURN n,r,m"
                 );
 
@@ -63,14 +63,14 @@ public class getMovie implements RESTStrategy {
 
                 List<String> actorIds = new ArrayList<>();
                 for (Value actorNode : nodesOfActors) {
-                    actorIds.add(actorNode.get("actorId").asString());
+                    actorIds.add(actorNode.get("id").asString());
                 }
 
                 //Now construct the output
                 JSONObject jsonOutput = new JSONObject();
                 jsonOutput.put("actors",actorIds);
                 jsonOutput.put("name",movieNode.get("name").asString());
-                jsonOutput.put("actorId",movieNode.get("movieId").asString());
+                jsonOutput.put("movieId",movieNode.get("id").asString());
 
                 output = new httpBundle(exchange, jsonOutput.toString(), 200);
 
