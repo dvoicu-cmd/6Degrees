@@ -77,7 +77,7 @@ public class hasRelationship implements RESTStrategy {
             }
 
         } catch (JSONException | IOException e) {
-            throw new RuntimeException(e);
+            output = new httpBundle(exchange, "BAD REQUEST", 400);
         } catch (InstanceNotFoundException e){
             output = new httpBundle(exchange, "NOT FOUND", 404);
         }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.11.4 on win32)" generated="20230813 17:02:53.482" rpa="false" schemaversion="4">
+<suite id="s1" name="testNeo4j" source="G:\Other computers\My MacBook Pro M1\Repositories\project\testNeo4j.robot">
+<test id="s1-t1" name="getMovieFail2" line="8">
+<kw name="Create Session" library="RequestsLibrary" type="SETUP">
+<arg>localhost</arg>
+<arg>http://localhost:8080</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20230813 17:02:53.579" level="INFO">Creating Session using : alias=localhost, url=http://localhost:8080, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20230813 17:02:53.579" endtime="20230813 17:02:53.580"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230813 17:02:53.580" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20230813 17:02:53.580" endtime="20230813 17:02:53.580"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${url}</var>
+<arg>/api/v1/getMovie?moaeertjdkjhuiiuiuhId=nAm111111111111111111111111891</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230813 17:02:53.581" level="INFO">${url} = /api/v1/getMovie?moaeertjdkjhuiiuiuhId=nAm111111111111111111111111891</msg>
+<status status="PASS" starttime="20230813 17:02:53.580" endtime="20230813 17:02:53.581"/>
+</kw>
+<kw name="GET On Session" library="RequestsLibrary">
+<var>${resp2}</var>
+<arg>localhost</arg>
+<arg>url=${url}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=400</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20230813 17:03:02.665" level="INFO">GET Request : url=http://localhost:8080/api/v1/getMovie?moaeertjdkjhuiiuiuhId=nAm111111111111111111111111891 
+ path_url=/api/v1/getMovie?moaeertjdkjhuiiuiuhId=nAm111111111111111111111111891 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg timestamp="20230813 17:03:02.666" level="INFO">GET Response : url=http://localhost:8080/api/v1/getMovie?moaeertjdkjhuiiuiuhId=nAm111111111111111111111111891 
+ status=400, reason=Bad Request 
+ headers={'Date': 'Mon, 14 Aug 2023 00:03:02 GMT', 'Content-length': '11'} 
+ body=BAD REQUEST 
+ </msg>
+<msg timestamp="20230813 17:03:02.666" level="INFO">${resp2} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20230813 17:02:53.581" endtime="20230813 17:03:02.666"/>
+</kw>
+<timeout value="30 seconds"/>
+<status status="PASS" starttime="20230813 17:02:53.579" endtime="20230813 17:03:02.667"/>
+</test>
+<status status="PASS" starttime="20230813 17:02:53.485" endtime="20230813 17:03:02.668"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="testNeo4j">testNeo4j</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

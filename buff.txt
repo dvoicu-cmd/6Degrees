@@ -1,38 +1,29 @@
-*** Settings ***
-Library    Collections
-Library    RequestsLibrary
-Test Timeout    30 seconds
-Test Setup    Create Session    localhost    http://localhost:8080
-
-*** Test Cases ***
-
 ##### PUT REQUESTS #####
 
 ### addActor Tests ###
-
-addActorCorrectFormat
+addActorCorrectPass
     ${headers}=    Create Dictionary    Content-Type=application/json
     ${params}=   Create Dictionary    name=bob    actorId=nm7001850
     ${resp}=    PUT On Session    localhost    /api/v1/addActor    json=${params}    headers=${headers}    expected_status=200
 
-addActorIncorrectFormat
+addActorFail
     ${headers}=    Create Dictionary    Content-Type=application/json
     ${params}=   Create Dictionary    name=Alice    movieId=nm1111111111111111111111111111111
     ${resp}=    PUT On Session    localhost    /api/v1/addActor    json=${params}    headers=${headers}    expected_status=400
 
 ### addMovie Tests ###
 
-addMovieCorrectFormat
+addMoviePass
     ${headers}=    Create Dictionary    Content-Type=application/json
     ${params}=   Create Dictionary    name=Wall-E    movieId=nm10385
     ${resp}=    PUT On Session    localhost    /api/v1/addMovie    json=${params}    headers=${headers}    expected_status=200
 
-addMovieIncorrectFormat
+addMovieFail
     ${headers}=    Create Dictionary    Content-Type=application/json
     ${params}=   Create Dictionary    name=DriverLiterallyMe    actorId=nm111111111113333333333333333333333333333333
     ${resp}=    PUT On Session    localhost    /api/v1/addMovie    json=${params}    headers=${headers}    expected_status=400
 
-addMovieDupe
+addMovieFail2
     ${headers}=    Create Dictionary    Content-Type=application/json
     ${params1}=   Create Dictionary    name=Oppenheimer    movieId=nm48123
     ${params2}=   Create Dictionary    name=Barbie    movieId=nm48123
@@ -46,24 +37,65 @@ addRelationshipPass
     ${params}=   Create Dictionary    actorId=nm7001850    movieId=nm10385    #Bob acted in Wall-E
     ${resp}=    PUT On Session    localhost    /api/v1/addRelationship    json=${params}    headers=${headers}    expected_status=200
 
-addRelationshipDuplicate
+addRelationshipFail
     ${headers}=    Create Dictionary    Content-Type=application/json
     ${params}=   Create Dictionary    actorId=nm7001850    movieId=nm10385    #Bob acted in Wall-E
     ${resp}=    PUT On Session    localhost    /api/v1/addRelationship    json=${params}    headers=${headers}    expected_status=400
 
-addRelationshipDuplicate2
+addRelationshipFail2
     ${headers}=    Create Dictionary    Content-Type=application/json
     ${params1}=   Create Dictionary    actorId=nm7001850    movieId=nm48123    #Bob acted in Wall-E
     ${resp}=    PUT On Session    localhost    /api/v1/addRelationship    json=${params1}    headers=${headers}    expected_status=200
     ${params2}=   Create Dictionary    movieId=nm48123    actorId=nm7001850    #Bob acted in Wall-E
     ${resp}=    PUT On Session    localhost    /api/v1/addRelationship    json=${params2}    headers=${headers}    expected_status=400
 
-
 ##### GET REQUESTS #####
 
-getActor
+### getActor Tests ###
+
+getActorPass
+    #Add the movie/actor
     ${headers}=    Create Dictionary    Content-Type=application/json
     ${params1}=    Create Dictionary    name=Bill    actorId=nm1111891
+    ${paramsExpected}=    Evaluate    {"name": "Bill", "actorId": "nm1111891", "movies": []}
     ${resp1}=    PUT On Session    localhost    /api/v1/addActor    json=${params1}    headers=${headers}    expected_status=200
-    ${resp2}=    GET On Session    localhost    /api/v1/getActor?actorId=nm1111891    headers=${headers}    expected_status=200
-    Should Be Equal As Strings    ${params1}    ${resp2.json()}
+
+    #Execute GET
+    ${url}=    Set Variable    /api/v1/getActor?actorId=nm1111891
+    ${resp2}=    GET On Session    localhost    url=${url}    headers=${headers}    expected_status=200
+
+    #Evaluate if result is correct
+    ${resp2_dict}=    Evaluate    json.loads('''${resp2.text}''')
+    Should Be Equal    ${paramsExpected}    ${resp2_dict}
+
+getActorFail    #Actor does not exist
+    ${headers}=    Create Dictionary    Content-Type=application/json
+    ${url}=    Set Variable    /api/v1/getActor?actorId=naa3344555m11118123gb91
+    ${resp2}=    GET On Session    localhost    url=${url}    headers=${headers}    expected_status=404
+
+getActorFail2  #Inproper format
+    ${headers}=    Create Dictionary    Content-Type=application/json
+    ${url}=    Set Variable    /api/v1/getActor?movieId=nAm111111111111111111111111891
+    ${resp2}=    GET On Session    localhost    url=${url}    headers=${headers}    expected_status=400
+
+### getMovie Tests ###
+
+getMoviePass
+    #Add the movie/actor
+    ${headers}=    Create Dictionary    Content-Type=application/json
+    ${params1}=    Create Dictionary    name=Spider-Man    movieId=nm01345
+    ${paramsExpected}=    Evaluate    {"name": "Spider-Man", "movieId": "nm01345", "actors": []}
+    ${resp1}=    PUT On Session    localhost    /api/v1/addMovie    json=${params1}    headers=${headers}    expected_status=200
+
+    #Execute GET
+    ${url}=    Set Variable    /api/v1/getMovie?movieId=nm01345
+    ${resp2}=    GET On Session    localhost    url=${url}    headers=${headers}    expected_status=200
+
+    #Evaluate if result is correct
+    ${resp2_dict}=    Evaluate    json.loads('''${resp2.text}''')
+    Should Be Equal    ${paramsExpected}    ${resp2_dict}
+
+getMovieFail    #Movie does not exist
+    ${headers}=    Create Dictionary    Content-Type=application/json
+    ${url}=    Set Variable    /api/v1/getMovie?movieId=nnnnnnnmmmmmmmmmm1111111111111111111
+    ${resp2}=    GET On Session    localhost    url=${url}    headers=${headers}    expected_status=404
