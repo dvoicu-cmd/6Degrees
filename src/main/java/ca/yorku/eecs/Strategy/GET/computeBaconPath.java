@@ -53,7 +53,13 @@ public class computeBaconPath implements RESTStrategy {
                 );
 
                 //Check if this path is valid
-                List<Record> records = path.list();
+                List<Record> records;
+                try{
+                    records = path.list();
+                }catch(Exception e){ //If you get an error -> Keven Bacon Node
+                    throw new ExceptionInInitializerError();
+                }
+
                 if(records.isEmpty()){
                     throw new InstanceNotFoundException();
                 }
@@ -82,6 +88,12 @@ public class computeBaconPath implements RESTStrategy {
                 output = new httpBundle(exchange, "BAD REQUEST", 400);
             } catch (InstanceNotFoundException e) {
                 output = new httpBundle(exchange, "NOT FOUND", 404);
+            } catch (ExceptionInInitializerError e){ //Bacon Exception
+                JSONObject jsonOutput = new JSONObject();
+                List<String> arr = new ArrayList<>();
+                arr.add("nm0000102");
+                jsonOutput.put("baconPath",arr);
+                output = new httpBundle(exchange, jsonOutput.toString(),200);
             }
         }
         return output;
