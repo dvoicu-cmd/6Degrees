@@ -9,15 +9,12 @@ Test Setup    Create Session    localhost    http://localhost:8080
 
 *** Test Cases ***
 
-##### PUT REQUESTS #####
-
-
-### Bacon to All 1 ###
+##### Bacon to All prt1 #####
 baconToAllFail
     ${headers}=    Create Dictionary    Content-Type=application/json
-    ${resp}=    PUT On Session    localhost    /api/v1/baconToAll    json=${params}    headers=${headers}    expected_status=404
+    ${resp}=    PUT On Session    localhost    /api/v1/baconToAll    headers=${headers}    expected_status=404
 
-
+##### PUT REQUESTS #####
 
 ### addActor Tests ###
 addActorCorrectPass
@@ -164,6 +161,7 @@ hasRelationshipFail    #Bad request
 
 ### Bacon pathing Tests ###
 
+# Helper test to build the test graph.
 buildGraph
     ${headers}=    Create Dictionary    Content-Type=application/json
     ${params1}=    Create Dictionary    name=Keven Bacon    actorId=nm0000102    #Create Keven Bacon node
@@ -217,22 +215,21 @@ computeBaconPathFail    #No path to bacon
     ${result0}=    GET On Session    localhost    url=/api/v1/computeBaconPath?actorId=nm621371    headers=${headers}    expected_status=404
 
 
-
-### Bacon to All 2 ###
+##### Bacon to All prt2 ######
 baconToAllPass
-    ${resp}=    PUT On Session    localhost    /api/v1/baconToAll    json=${params}    headers=${headers}    expected_status=200
+    ${headers}=    Create Dictionary    Content-Type=application/json
+    ${resp}=    PUT On Session    localhost    /api/v1/baconToAll    headers=${headers}    expected_status=200
 
     ${resp0}=    GET On Session    localhost    url=/api/v1/getMovie?movieId=nm0123456  headers=${headers}    expected_status=200
     ${resp1}=    GET On Session    localhost    url=/api/v1/getMovie?movieId=nm01345  headers=${headers}    expected_status=200
     ${resp2}=    GET On Session    localhost    url=/api/v1/getMovie?movieId=nm10385  headers=${headers}    expected_status=200
     ${resp3}=    GET On Session    localhost    url=/api/v1/getMovie?movieId=nm48123  headers=${headers}    expected_status=200
 
-    ${resp4}=    GET On Session    localhost    url=/api/v1/getMovie?actorId=nm0000102  headers=${headers}    expected_status=200
+    ${resp4}=    GET On Session    localhost    url=/api/v1/getActor?actorId=nm0000102  headers=${headers}    expected_status=200
 
     # Check if Kevin Bacon node is present in each response
-    Should Contain    ${resp0.text}    "Kevin Bacon"
-    Should Contain    ${resp1.text}    "Kevin Bacon"
-    Should Contain    ${resp2.text}    "Kevin Bacon"
-    Should Contain    ${resp3.text}    "Kevin Bacon"
-    Should Contain    ${resp4.text}    "Kevin Bacon"
+    Should Contain    ${resp0.text}    "nm0000102"
+    Should Contain    ${resp1.text}    "nm0000102"
+    Should Contain    ${resp2.text}    "nm0000102"
+    Should Contain    ${resp3.text}    "nm0000102"
 
