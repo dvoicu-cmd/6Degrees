@@ -7,8 +7,6 @@ import com.sun.net.httpserver.HttpExchange;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.neo4j.driver.v1.*;
-
-import javax.management.InstanceNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -45,7 +43,7 @@ public class hasRelationship implements RESTStrategy {
                                 "RETURN n"
                 );
                 if(movieExists.list().isEmpty()){
-                    throw new InstanceNotFoundException();
+                    throw new ClassNotFoundException();
                 }
 
                 //Check if the actor exists
@@ -54,7 +52,7 @@ public class hasRelationship implements RESTStrategy {
                                 "RETURN n"
                 );
                 if(actorExists.list().isEmpty()){
-                    throw new InstanceNotFoundException();
+                    throw new ClassNotFoundException();
                 }
 
                 //If those queries pass, then we are good to go on checking if the relationship exists
@@ -78,7 +76,7 @@ public class hasRelationship implements RESTStrategy {
 
         } catch (JSONException | IOException e) {
             output = new httpBundle(exchange, "BAD REQUEST", 400);
-        } catch (InstanceNotFoundException e){
+        } catch (ClassNotFoundException e){
             output = new httpBundle(exchange, "NOT FOUND", 404);
         }
 

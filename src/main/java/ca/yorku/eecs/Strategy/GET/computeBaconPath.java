@@ -10,8 +10,6 @@ import org.neo4j.driver.v1.*;
 import org.neo4j.driver.v1.types.Node;
 import org.neo4j.driver.v1.types.Path;
 import org.neo4j.driver.v1.types.Relationship;
-
-import javax.management.InstanceNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -43,7 +41,7 @@ public class computeBaconPath implements RESTStrategy {
 
                 List<Record> record = exists.list();
                 if (record.isEmpty()) {
-                    throw new InstanceNotFoundException();
+                    throw new ClassNotFoundException();
                 }
 
                 StatementResult path = tx.run(
@@ -61,7 +59,7 @@ public class computeBaconPath implements RESTStrategy {
                 }
 
                 if(records.isEmpty()){
-                    throw new InstanceNotFoundException();
+                    throw new ClassNotFoundException();
                 }
 
 
@@ -86,7 +84,7 @@ public class computeBaconPath implements RESTStrategy {
 
             } catch (JSONException e) {
                 output = new httpBundle(exchange, "BAD REQUEST", 400);
-            } catch (InstanceNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 output = new httpBundle(exchange, "NOT FOUND", 404);
             } catch (ExceptionInInitializerError e){ //Bacon Exception
                 JSONObject jsonOutput = new JSONObject();

@@ -49,6 +49,7 @@ public class Neo4jFacade {
         methods.add(new addActor());
         methods.add(new addMovie());
         methods.add(new addRelationship());
+        methods.add(new baconToAll());
     }
 
     private void clearMethods(){
@@ -87,6 +88,9 @@ public class Neo4jFacade {
                             break;
                         case "addRelationship":
                             PUTid = 2;
+                            break;
+                        case "baconToAll":
+                            PUTid = 3;
                             break;
                     }
                     output = methods.get(PUTid).processRequest(exchange, driver); //id correlates to the method we will use.

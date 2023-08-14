@@ -68,7 +68,7 @@ public class getActor implements RESTStrategy {
 
                 List<String> movieIds = new ArrayList<>();
                 for (Value movieNode : nodesOfMovies) {
-                    movieIds.add(movieNode.get("movieId").asString());
+                    movieIds.add(movieNode.get("id").asString());
                 }
 
                 //Now construct the output

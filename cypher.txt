@@ -1,8 +1,0 @@
-//Nuke DB:
-MATCH (n) DETACH DELETE n
-
-//See all relationships
-MATCH (n) RETURN (n)
-or
-START n=node(*) MATCH (n)-[r]->(m) RETURN n,r,m;
-

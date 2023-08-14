@@ -7,8 +7,6 @@ import com.sun.net.httpserver.HttpExchange;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.neo4j.driver.v1.*;
-
-import javax.management.InstanceNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +37,7 @@ public class getMovie implements RESTStrategy {
                 //If the query turns out blank, throw instance not found exception.
                 List<Record> record = exists.list();
                 if(record.isEmpty()){
-                    throw new InstanceNotFoundException();
+                    throw new ClassNotFoundException();
                 }
 
                 //If not thrown, lets continue flow and get the movie node.
@@ -79,7 +77,7 @@ public class getMovie implements RESTStrategy {
         } catch (JSONException | IOException e) {
             output = new httpBundle(exchange, "BAD REQUEST", 400);
         }
-        catch (InstanceNotFoundException e){
+        catch (ClassNotFoundException e){
             output = new httpBundle(exchange, "NOT FOUND", 404);
         }
 
