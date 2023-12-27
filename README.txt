@@ -1,3 +1,8 @@
+Hello. I felt that this project is a good representation of how I am able to apply oop design paterns, so I've decided to make it public.
+
+Below is my original read me to the TA for this project.
+---------------------------------------------------------
+
 Hello, I'll make this short.
 
 This is my 6degress to Keven Bacon project. I'll briefly tell you some things to know that might make marking easier.
