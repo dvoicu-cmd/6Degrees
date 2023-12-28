@@ -1,5 +1,8 @@
 Hello. I felt that this project is a good representation of how I am able to apply oop design paterns, so I've decided to make it public.
 
+In short: I had to design a REST API that runs on a java server that would interface with a neo4j database. The goal of the API is to organize nodes in the database and ultimate return a path from any actor node to the keven bacon node.
+Here is a useful link for more context on the problem: https://en.wikipedia.org/wiki/Six_Degrees_of_Kevin_Bacon
+
 Below is my original read me to the TA for this project.
 ---------------------------------------------------------
 
